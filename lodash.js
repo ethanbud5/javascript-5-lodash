@@ -406,7 +406,14 @@ const purchases = [
 const purchasesByMonth = _.groupBy(purchases,"month"); // Use groupBy to group the purchases by the month that they were made.
 
 // Bonus Points
-const totalByMonth = 0; // Use the grouped purchasesByMonth and reduce to create a totalByMonth object.
+const totalByMonth = _.reduce(purchasesByMonth,(combine,month,i)=>{
+    
+  let monthTotal =  _.reduce( month,(total,obj)=>{
+    return +total+ +obj.price
+  },0)
+  let valueAdded = combine[month[0].month] = monthTotal
+  return combine
+},{});  // Use the grouped purchasesByMonth and reduce to create a totalByMonth object.
 
 // memoize
 //  Memoize lets us take a function that takes a lot of time to run, and cache (or memoize)
@@ -439,14 +446,14 @@ function slowFibonnaci(n) {
 
 //When ready to test uncomment the 3 lines below.
 
-let slowN = 30;
+// let slowN = 40;
 // console.time('slowFibonnaci:' + slowN)
 // console.log(slowFibonnaci(slowN));
 // console.timeEnd('slowFibonnaci:' + slowN);
 
 let fastN = 1000;
 
-let fastFibonnaci = 0; // use memoize to create a fast fibonnaci.  Use the same
+let fastFibonnaci = _.memoize(slowFibonnaci) // use memoize to create a fast fibonnaci.  Use the same
 // recursve structure that the slowFibonnaci is using, but have it be memoized
 // so that it'll remeber the previous times it's been called and increase the
 
